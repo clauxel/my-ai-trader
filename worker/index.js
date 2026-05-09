@@ -289,7 +289,7 @@ function handleRuntime(request, requestUrl) {
       defaultPlan: 'pro',
       defaultBilling: 'annual',
       annualDiscount: '50%',
-      analytics: 'first-party-d1-ready',
+      analytics: 'first-party-kv-with-d1-ready',
       ts: Date.now(),
     },
     200,
@@ -341,6 +341,7 @@ async function handleAnalytics(request, env) {
   const receivedAt = new Date().toISOString()
 
   let persisted = false
+  let store = 'console'
   try {
     persisted = await ensureAnalyticsSchema(env)
     if (persisted && acceptedEvents.length) {
@@ -369,14 +370,32 @@ async function handleAnalytics(request, env) {
           ),
         ),
       )
+      store = 'd1'
+    } else if (env?.ANALYTICS_KV?.put && acceptedEvents.length) {
+      const day = receivedAt.slice(0, 10)
+      const hour = receivedAt.slice(11, 13)
+      const batchId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`
+      await env.ANALYTICS_KV.put(
+        `events/${day}/${hour}/${batchId}.json`,
+        JSON.stringify({
+          site: 'ai-trader.best',
+          receivedAt,
+          country,
+          accepted: acceptedEvents.length,
+          events: acceptedEvents,
+        }),
+        { expirationTtl: 60 * 60 * 24 * 180 },
+      )
+      persisted = true
+      store = 'kv'
     }
   } catch (error) {
     console.log(JSON.stringify({ type: 'analytics_store_error', site: 'ai-trader.best', message: String(error?.message || error) }))
     persisted = false
   }
 
-  console.log(JSON.stringify({ type: 'analytics', site: 'ai-trader.best', accepted: acceptedEvents.length, persisted }))
-  return jsonResponse({ ok: true, accepted: acceptedEvents.length, persisted }, 202, request)
+  console.log(JSON.stringify({ type: 'analytics', site: 'ai-trader.best', accepted: acceptedEvents.length, persisted, store }))
+  return jsonResponse({ ok: true, accepted: acceptedEvents.length, persisted, store }, 202, request)
 }
 
 function buildSitemapXml() {
