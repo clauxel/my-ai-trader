@@ -339,7 +339,7 @@ export default function App() {
       if (event.data?.type !== 'ai-trader-checkout-complete') return
       setCheckoutModal(null)
       setCheckoutLoadingKey(null)
-      trackEvent('checkout_success_return', { provider: 'creem' })
+      trackEvent('checkout_success_return', { provider: 'polar' })
       navigate('/?payment=success')
     }
 
@@ -385,7 +385,7 @@ export default function App() {
     } catch {}
   }
 
-  async function startHostedCheckout(planId: PlanId, billingCycle: Billing, loadingKey: string, provider = 'creem') {
+  async function startHostedCheckout(planId: PlanId, billingCycle: Billing, loadingKey: string, provider = 'polar') {
     const popup = openCenteredCheckoutWindow()
     setSelectedPlanId(planId)
     setBilling(billingCycle)
@@ -394,7 +394,7 @@ export default function App() {
     trackEvent('checkout_open_start', { planId, billing: billingCycle, popup: Boolean(popup) })
 
     try {
-      const checkoutUrl = await createCheckoutSession(planId, billingCycle, provider === 'nowpayments' ? '/api/nowpayments-checkout' : '/api/checkout')
+      const checkoutUrl = await createCheckoutSession(planId, billingCycle, provider === 'polar' ? '/api/polar-checkout' : '/api/checkout')
       const popupReady = sendPopupToCheckout(popup, checkoutUrl)
       trackEvent('checkout_session_created', { planId, billing: billingCycle, popupReady })
       setCheckoutModal({ planId, billing: billingCycle, loadingKey, status: popupReady ? 'popup' : 'retry', checkoutUrl })
@@ -597,7 +597,7 @@ export default function App() {
                 <button
                   type="button"
                   className="at-btn at-btn-ghost"
-                  onClick={() => void startHostedCheckout(plan.id, billing, `${loadingKey}-wallet`, 'nowpayments')}
+                  onClick={() => void startHostedCheckout(plan.id, billing, `${loadingKey}-wallet`, 'polar')}
                   disabled={checkoutLoadingKey !== null}
                 >
                   {checkoutLoadingKey === `${loadingKey}-wallet` ? 'Opening USDC wallet...' : 'Pay with USDC Wallet'}
@@ -621,7 +621,7 @@ export default function App() {
           </article>
           <article>
             <h3>Does payment replace this page?</h3>
-            <p>No. Checkout opens in a centered Creem popup and the product page stays visible behind a blurred overlay.</p>
+            <p>No. Checkout opens in a centered Polar popup and the product page stays visible behind a blurred overlay.</p>
           </article>
         </div>
       ) : null}
@@ -702,7 +702,7 @@ export default function App() {
             <div className="at-hero-proof">
               <div>
                 <span>Default path</span>
-                <strong>Planner to Operator annual to Creem popup to homepage return</strong>
+                <strong>Planner to Operator annual to Polar popup to homepage return</strong>
               </div>
               <div>
                 <span>Trust posture</span>
@@ -866,7 +866,7 @@ export default function App() {
           <div>
             <p className="at-eyebrow">Recommended next step</p>
             <h2>Use the desk planner, then keep Operator annual selected if the setup fits.</h2>
-            <p>Checkout stays in a centered Creem popup, with annual billing selected by default.</p>
+            <p>Checkout stays in a centered Polar popup, with annual billing selected by default.</p>
           </div>
           <div className="at-article-cta-actions">
             <button type="button" className="at-btn at-btn-primary" onClick={() => chooseOperatorAnnual(`article-${page.path}`)}>
@@ -939,14 +939,14 @@ export default function App() {
             <div className="at-checkout-loading">
               <span aria-hidden />
               <div>
-                <h2>Preparing Creem checkout...</h2>
+                <h2>Preparing Polar checkout...</h2>
                 <p>Operator annual stays selected while the secure payment window opens.</p>
               </div>
             </div>
           ) : (
             <div className="at-checkout-copy">
               <p className="at-eyebrow">Secure checkout</p>
-              <h2>{checkoutModal.status === 'popup' ? 'Your Creem payment window is open.' : 'Popup blocked or checkout needs a retry.'}</h2>
+              <h2>{checkoutModal.status === 'popup' ? 'Your Polar payment window is open.' : 'Popup blocked or checkout needs a retry.'}</h2>
               <p>
                 {plan.name} {checkoutModal.billing} is set to {formatMoney(monthly)}/mo
                 {checkoutModal.billing === 'annual' ? ' with 50% annual savings.' : '.'}

@@ -465,7 +465,7 @@ export const keywordPages: KeywordPage[] = [
         heading: 'How to turn chat into a desk',
         paragraphs: [
           'Use the homepage planner to choose ChatGPT as the agent mode, pick the market, select prediction or copy-trading review, and keep the risk boundary visible.',
-          'Then open checkout in a centered Creem popup without losing the product context behind it.',
+          'Then open checkout in a centered Polar popup without losing the product context behind it.',
         ],
       },
     ],

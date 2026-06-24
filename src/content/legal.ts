@@ -23,7 +23,7 @@ export const legalPrivacySections: LegalSection[] = [
   {
     title: 'Service providers',
     paragraphs: [
-      'Cloudflare supports hosting, routing, security, analytics infrastructure, and edge execution. Creem supports hosted checkout and payment processing.',
+      'Cloudflare supports hosting, routing, security, analytics infrastructure, and edge execution. Polar supports hosted checkout and payment processing.',
       'Payment details are handled by the payment provider. We do not ask users to send card numbers, brokerage passwords, seed phrases, exchange API keys, or trading account credentials by email or through this public planner.',
       'Third-party services process information under their own terms and privacy practices. Do not proceed with checkout or external links if you do not accept those practices.',
     ],
@@ -90,7 +90,7 @@ export const legalTermsSections: LegalSection[] = [
   {
     title: 'Payments, renewals, and refunds',
     paragraphs: [
-      'Payments are processed by Creem in a hosted popup window. Successful checkouts return the user to the homepage.',
+      'Payments are processed by Polar in a hosted popup window. Successful checkouts return the user to the homepage.',
       'Displayed annual pricing reflects a 50% discount versus the monthly run-rate for the same plan. Prices, plan names, features, and availability may change before purchase.',
       'Unless a separate written agreement says otherwise, purchases are final to the maximum extent permitted by law. If the payment provider, consumer law, or a written policy requires a refund, that required rule controls.',
       'Chargebacks, payment abuse, or attempted circumvention of checkout may result in suspension, cancellation, refusal of service, or preservation of evidence.',
@@ -107,7 +107,7 @@ export const legalTermsSections: LegalSection[] = [
   {
     title: 'Third-party services',
     paragraphs: [
-      'Cloudflare, Creem, GitHub, data providers, AI model providers, brokers, exchanges, prediction markets, wallet providers, infrastructure providers, and other third-party services may be involved in hosting, checkout, references, integrations, or customer workflows.',
+      'Cloudflare, Polar, GitHub, data providers, AI model providers, brokers, exchanges, prediction markets, wallet providers, infrastructure providers, and other third-party services may be involved in hosting, checkout, references, integrations, or customer workflows.',
       'We are not responsible for third-party services, third-party outages, payment provider decisions, external repositories, market data, exchange behavior, broker decisions, account bans, rate limits, slippage, fees, taxes, or third-party terms.',
       'Your use of third-party services is governed by the applicable third-party terms, privacy policies, account rules, market rules, and fees.',
     ],
